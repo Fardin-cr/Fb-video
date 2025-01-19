@@ -8,16 +8,11 @@
 </head>
 <body>
     <div class="container">
-        <h1>✨ Facebook Video Downloader ✨</h1>
-        <p>Enter the URL of a Facebook video to download it.</p>
-
-        <form id="downloadForm">
-            <label for="videoURL">Video URL:</label>
-            <input type="url" id="videoURL" placeholder="Paste the Facebook video URL here" required>
-            <button type="submit">Download Video</button>
-        </form>
-
-        <p id="errorMessage" style="color: red; display: none;">Please enter a valid Facebook video URL.</p>
+        <h1>Facebook Video Downloader</h1>
+        <input type="text" id="videoURL" placeholder="Paste Facebook Video URL here" />
+        <button onclick="downloadVideo()">Download Video</button>
+        
+        <div class="result" id="result"></div>
     </div>
 
     <script src="script.js"></script>
