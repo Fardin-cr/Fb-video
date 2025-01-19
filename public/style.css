@@ -1,48 +1,25 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    margin: 0;
-}
+async function downloadVideo() {
+    const videoURL = document.getElementById('videoURL').value;
+    if (!videoURL) {
+        alert('Please enter a Facebook video URL.');
+        return;
+    }
 
-.container {
-    text-align: center;
-}
+    const resultDiv = document.getElementById('result');
+    resultDiv.innerHTML = '';  // Clear previous results
 
-input, button {
-    padding: 10px;
-    margin: 10px;
-    font-size: 16px;
-    width: 300px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
+    try {
+        // Make the request to the backend to fetch the download link
+        const response = await fetch(`/download?url=${encodeURIComponent(videoURL)}`);
+        const data = await response.json();
 
-button {
-    cursor: pointer;
-    background-color: #4CAF50;
-    color: white;
-}
-
-button:hover {
-    background-color: #45a049;
-}
-
-.result {
-    margin-top: 20px;
-    font-size: 16px;
-}
-
-a {
-    color: #4CAF50;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-a:hover {
-    text-decoration: underline;
+        if (data.downloadLink) {
+            resultDiv.innerHTML = `<a href="${data.downloadLink}" target="_blank" download="facebook_video.mp4">Click here to download the video</a>`;
+        } else {
+            resultDiv.innerHTML = `<p>Error: ${data.error}</p>`;
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        resultDiv.innerHTML = '<p>Failed to fetch the video download link. Please try again later.</p>';
+    }
 }
